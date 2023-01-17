@@ -17,7 +17,6 @@
   </head>
   <body>
     <h3>Select a video to extract the keyframes</h3>
-    <video id="output-video" controls></video><br/>
     <input type="file" id="uploader">
     <button onClick="cancel()">Cancel</button>
     <p id="message"></p>
@@ -64,9 +63,17 @@
       elm.addEventListener('change', keyframes);
 
       const cancel = () => {
+        elm.removeEventListener('change', keyframes);
+        elm.value = "";
         try {
-          ffmpeg.exit();
-        } catch(e) {}
+          if (ffmpeg) {
+            ffmpeg.exit();
+          }
+        } catch(e) {
+          console.log(e);
+        } finally {
+          elm.addEventListener('change', keyframes);
+        }
         ffmpeg = null;
       }
     </script>
