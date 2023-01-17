@@ -45,6 +45,7 @@
   },
   "homepage": "https://github.com/ffmpegwasm/ffmpeg.wasm#readme",
   "dependencies": {
+    "coi-serviceworker": "^0.1.6",
     "is-url": "^1.2.4",
     "node-fetch": "^2.6.1",
     "regenerator-runtime": "^0.13.7",
