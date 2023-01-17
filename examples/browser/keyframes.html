@@ -39,11 +39,26 @@
         ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
         message.innerHTML = 'Start keyframes';
         await ffmpeg.run('-i', name,  '-vf', 'select=eq(pict_type\\,I)', '-vsync', 'vfr', 'frame-%02d.png');
-        message.innerHTML = 'Complete keyframes';
+        const framesUrls = ffmpeg.FS('readdir', '.')
+          .filter(filename => filename.startsWith('frame-'))
+          .map(filename => {
+            const data = ffmpeg.FS('readFile', filename);
+            const blob = new Blob([data.buffer]);
+            const url = URL.createObjectURL(blob, { type: 'image/png' });
+            return url;
+          });
+        message.innerHTML = `Complete keyframes: ${framesUrls.length}`;
+        framesUrls.forEach(url => {
+          const p = document.createElement("p");
+          const img = document.createElement("img");
+          img.src = url;
+          p.appendChild(img);
+          document.getElementById("output-keyframes").appendChild(p);
+        });
         // const data = ffmpeg.FS('readFile', 'output.mp4');
-
         //const video = document.getElementById('output-video');
         //video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+        
       }
       const elm = document.getElementById('uploader');
       elm.addEventListener('change', keyframes);
