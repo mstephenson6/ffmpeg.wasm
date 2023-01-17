@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node scripts/server.js",
     "start:worker": "node scripts/worker-server.js",
-    "build": "rimraf dist && webpack --config scripts/webpack.config.prod.js",
+    "build": "rimraf dist && NODE_OPTIONS=--openssl-legacy-provider webpack --config scripts/webpack.config.prod.js",
+    "build:dev": "rimraf dist && NODE_OPTIONS=--openssl-legacy-provider webpack --config scripts/webpack.config.dev.js",
     "build:worker": "rimraf dist && webpack --config scripts/webpack.config.worker.prod.js",
     "prepublishOnly": "npm run build",
     "lint": "eslint src",
